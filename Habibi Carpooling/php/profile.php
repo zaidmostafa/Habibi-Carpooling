@@ -1,39 +1,48 @@
-    <?php
-	session_start();
-	 // Check if the user is logged in (based on session variable)
-	    if (!isset($_SESSION['username'])) {
-	        // If not logged in, redirect to the homepage or login page
-	        header("Location: ../html/homepage.html"); // Replace with your homepage URL if it's not "index.php"
-	        exit; // Stop further code execution to ensure the redirect works
-	    }
+<?php
+    session_start(); 
 
-	// Assuming the user is logged in and their username is stored in the session
-	$userName = $_SESSION['username'];
+    // Check if the user is logged in (based on session variable)
+    if (!isset($_SESSION['username'])) {
+        // If not logged in, redirect to the homepage or login page
+        header("Location: ../html/homepage.html"); // Replace with your homepage URL if it's not "index.php"
+        exit; // Stop further code execution to ensure the redirect works
+    }
 
-	// Connect to the database (adjust connection settings as needed)
-	$host = 'localhost';
-	$username = 'root';
-	$dbname = 'profiles';
+    // Get the logged-in username
+    $username = $_SESSION['username'];
 
-	try {
-	    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username);
-	    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // Connect to the database (adjust connection settings as needed)
+    $host = 'localhost';
+    $dbUsername = 'root';
+    $dbname = 'profiles';
 
-	    // Fetch rides posted by the user
-	    $ridesPostedStmt = $pdo->prepare("SELECT * FROM rides WHERE posted_by = :username");
-	    $ridesPostedStmt->bindParam(':username', $userName);
-	    $ridesPostedStmt->execute();
-	    $ridesPosted = $ridesPostedStmt->fetchAll(PDO::FETCH_ASSOC);
+    try {
+        // Create a PDO connection
+        $pdo = new PDO("mysql:host=$host;dbname=$dbname", $dbUsername);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-	    // Fetch rides taken by the user
-	    $ridesTakenStmt = $pdo->prepare("SELECT * FROM rides WHERE user_taken = :username");
-	    $ridesTakenStmt->bindParam(':username', $userName);
-	    $ridesTakenStmt->execute();
-	    $ridesTaken = $ridesTakenStmt->fetchAll(PDO::FETCH_ASSOC);
+        // Ensure the username is JSON-encoded (wrap it in an array)
+        $usernameJson = json_encode([$username]);
 
-	} catch (PDOException $e) {
-	    echo "Error: " . $e->getMessage();
-	}
+        // Initialize $ridesTaken and $ridesPosted as empty arrays before the queries
+        $ridesTaken = [];
+        $ridesPosted = [];
+
+        // Fetch rides posted by the user
+        $ridesPostedStmt = $pdo->prepare("SELECT * FROM rides WHERE driver = :username");
+        $ridesPostedStmt->bindParam(':username', $username);
+        $ridesPostedStmt->execute();
+        $ridesPosted = $ridesPostedStmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Fetch rides taken by the user using JSON_CONTAINS
+        $ridesTakenStmt = $pdo->prepare("SELECT * FROM rides WHERE JSON_CONTAINS(passengersList, :usernameJson)");
+        $ridesTakenStmt->bindParam(':usernameJson', $usernameJson);
+        $ridesTakenStmt->execute();
+        $ridesTaken = $ridesTakenStmt->fetchAll(PDO::FETCH_ASSOC);
+
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+    }
 ?>
 
 <!DOCTYPE html>
@@ -45,12 +54,12 @@
     <body>
 
         <div id="profile">
-            <h1>Welcome, <?php echo htmlspecialchars($userName); ?>!</h1>
+            <h1>Welcome, <?php echo htmlspecialchars($username); ?>!</h1>
 
               <!-- Search Bar -->
             <h2>Search for a Ride</h2>
             <form action="searchRide.php" method="GET">
-                <input type="text" name="search" placeholder="Enter a destination" required>
+                <input type="text" name="search" placeholder="Search by: origin, destination, date, etc." required>
                 <input type="submit" value="Search">
             </form>
 
@@ -66,11 +75,10 @@
                 <ul>
                     <?php foreach ($ridesPosted as $ride): ?>
                         <li>
-                            <strong>Ride ID: <?php echo $ride['ride_id']; ?></strong><br>
-                            Date: <?php echo $ride['ride_date']; ?><br>
-                            From: <?php echo $ride['from_location']; ?><br>
-                            To: <?php echo $ride['to_location']; ?><br>
-                            Riders: <?php echo $ride['user_taken']; ?><br>
+                            <strong>Ride ID: <?php echo $ride['rideID']; ?></strong><br>
+                            Date: <?php echo $ride['rideDate']; ?><br>
+                            From: <?php echo $ride['origin']; ?><br>
+                            To: <?php echo $ride['destination']; ?><br>
                         </li>
                     <?php endforeach; ?>
                 </ul>
@@ -84,11 +92,10 @@
                 <ul>
                     <?php foreach ($ridesTaken as $ride): ?>
                         <li>
-                            <strong>Ride ID: <?php echo $ride['ride_id']; ?></strong><br>
-                            Date: <?php echo $ride['ride_date']; ?><br>
-                            From: <?php echo $ride['from_location']; ?><br>
-                            To: <?php echo $ride['to_location']; ?><br>
-                 			Riders: <?php echo $ride['user_taken']; ?><br>
+                            <strong>Ride ID: <?php echo $ride['rideID']; ?></strong><br>
+                            Date: <?php echo $ride['rideDate']; ?><br>
+                            From: <?php echo $ride['origin']; ?><br>
+                            To: <?php echo $ride['destination']; ?><br>
                         </li>
                     <?php endforeach; ?>
                 </ul>
@@ -98,6 +105,8 @@
 
         </div>
 
-    </body>
-</html>
+        <button onclick="window.location.href='../html/homepage.html'">Logout</button></body>
 
+    </body>
+
+</html>
