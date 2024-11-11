@@ -30,6 +30,7 @@
             </fieldset>
         </form>
 
+        <!--Allow the user to sign up, if they don't have an account-->
         <p>Don't have an account? <a href="signUp.php">Sign up here</a>.</p>
     </div>
 </body>
@@ -39,10 +40,10 @@
 // Start the session to handle user login status
 session_start();
 
-    // Include the database connection (optional: you can place it in a separate file for reusability)
-    $host = 'localhost'; // Database host
-    $dbname = 'profiles'; // Database name
-    $username = 'root'; // Database username
+    //To access the database 'profiles', with WAMP
+    $host = 'localhost'; 
+    $dbname = 'profiles'; 
+    $username = 'root'; 
 
     try {
         // Create a PDO connection
