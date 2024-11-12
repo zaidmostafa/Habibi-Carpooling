@@ -38,56 +38,85 @@
 </html>
 
 <?php
-                // Check if the form is submitted
-                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                    // Sanitize input to prevent XSS or other injection attacks
-                    $user = htmlspecialchars($_POST['user']);
-                    $password = htmlspecialchars($_POST['password']);
-                    $email = htmlspecialchars($_POST['email']);
-                    $telephone = htmlspecialchars($_POST['telephone']);
+    // Check if the form is submitted
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        // Sanitize user input 
+        $user = htmlspecialchars($_POST['user']);
+        $password = htmlspecialchars($_POST['password']);
+        $email = htmlspecialchars($_POST['email']);
+        $telephone = htmlspecialchars($_POST['telephone']);
 
-                    // Additional validation (can be customized)
-                    if (empty($user) || empty($password) || empty($email) || empty($telephone)) {
-                        echo "Please fill in all fields.";
-                    } else {
-                        // Here you would normally connect to your database to store the data
-                        // Example using PDO for database connection
 
-                        try {
-                            $host = 'localhost'; // Database host
-                            $username = 'root';
-                            $dbname = 'profiles'; // Database name
-                    
+        // Database connection details
+        $host = 'localhost'; //Database host
+        $myUsername = 'root'; //Database username
+        $myPassword = ''; //Database password
+        $dbname = 'profiles'; // Database name
 
-                            // Create a PDO connection
-                            $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username);
-                            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        // Create a MySQLi connection
+        $conn = new mysqli($host, $myUsername, $myPassword, $dbname);
 
-                            // Prepare the SQL query
-                            $sql = "INSERT INTO users (username, password, email, telephone) 
-                                    VALUES (:user, :password, :email, :telephone)";
+        // Check for connection errors
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
 
-                            // Prepare statement
-                            $stmt = $pdo->prepare($sql);
+        //make sure they don't already exist in the db with their username, email or telephone, and give them error messages
+        // Check if username already exists
+        $sql_check_username = "SELECT COUNT(*) FROM users WHERE username = ?";
+        $stmt_check_username = $conn->prepare($sql_check_username);
+        $stmt_check_username->bind_param("s", $user);
+        $stmt_check_username->execute();
+        $stmt_check_username->bind_result($username_exists);
+        $stmt_check_username->fetch();
+        $stmt_check_username->close();
 
-                            // Bind values to the query
-                            $stmt->bindParam(':user', $user);
-                            $stmt->bindParam(':password', $password);
-                            $stmt->bindParam(':email', $email);
-                            $stmt->bindParam(':telephone', $telephone);
+        // Check if email already exists
+        $sql_check_email = "SELECT COUNT(*) FROM users WHERE email = ?";
+        $stmt_check_email = $conn->prepare($sql_check_email);
+        $stmt_check_email->bind_param("s", $email);
+        $stmt_check_email->execute();
+        $stmt_check_email->bind_result($email_exists);
+        $stmt_check_email->fetch();
+        $stmt_check_email->close();
 
-                            // Execute the statement
-                            if ($stmt->execute()) {
-                                echo "Sign up successful!";
-                                header("Location: profile.php");
-                                exit;
-                            } else {
-                                echo "Something went wrong. Please try again.";
-                            }
-                        } catch (PDOException $e) {
-                            // Handle connection errors
-                            echo "Error: " . $e->getMessage();
-                        }
-                    }
-                }
-            ?>
+        // Check if telephone already exists
+        $sql_check_telephone = "SELECT COUNT(*) FROM users WHERE telephone = ?";
+        $stmt_check_telephone = $conn->prepare($sql_check_telephone);
+        $stmt_check_telephone->bind_param("s", $telephone);
+        $stmt_check_telephone->execute();
+        $stmt_check_telephone->bind_result($telephone_exists);
+        $stmt_check_telephone->fetch();
+        $stmt_check_telephone->close();
+
+        // If any of the fields already exist, show an error message
+        if ($username_exists > 0) {
+            echo "Username already exists. Please choose a different one.";
+        } elseif ($email_exists > 0) {
+            echo "Email already exists. Please choose a different one.";
+        } elseif ($telephone_exists > 0) {
+            echo "Telephone number already exists. Please choose a different one.";
+        }else{
+            // SQL query to insert user data
+            $sql = "INSERT INTO users (username, password, email, telephone) VALUES (?, ?, ?, ?)";
+            $stmt = $conn->prepare($sql);
+
+            // Bind parameters to the query
+            $stmt->bind_param("ssss", $user, $password, $email, $telephone);
+
+            // Execute the query
+            if ($stmt->execute()) {
+                echo "Sign up successful!";
+                header("Location: profile.php");
+                exit;
+            } else {
+                echo "Something went wrong. Please try again.";
+            }
+
+            // Close the statement and connection
+            $stmt->close();
+            $conn->close();
+    }
+        
+    }
+?>
