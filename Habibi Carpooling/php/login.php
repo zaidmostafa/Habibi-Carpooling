@@ -71,7 +71,8 @@
 <html>
 <head>
     <title>Login</title>
-    <link rel="stylesheet" href="habibiStyles.css"> <!-- Your stylesheet -->
+    <link rel="stylesheet" href="habibiStyles.css"> 
+    <link href="https://fonts.googleapis.com/css2?family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- Display the error message if there is one -->
@@ -82,20 +83,20 @@
     <?php endif; ?>
 
     <div id="login">
-        <h1>Login</h1>
+        
 
         <!-- Login Form -->
-        <form action="login.php" method="POST">
+        <form id="loginForm" action="login.php" method="POST">
             <fieldset>
                 <legend>Enter Your Login Details</legend>
 
-                Username<br>
-                <input type="text" name="username" required><br><br>
+                <!-- <label id="textid">Username</label><br> -->
+                <input type ="text" id="text" name="username" placeholder="Username" required><br><br>
 
-                Password<br>
-                <input type="password" name="password" required><br><br>
+                <!-- <label id="textid">Password</label><br> -->
+                <input type="password" id="text" name="password" placeholder="Password" required><br><br>
 
-                <input type="submit" value="Login">
+                <input type="submit" id="loginButton" value="Login">
             </fieldset>
         </form>
 
