@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Prepare the statement
     if ($stmt = $conn->prepare($sql)) {
         // Bind the parameters to the query
-        $stmt->bind_param("ssssii", $username, $departure, $destination, $date, $passengersInt, $passengersListJson);
+        $stmt->bind_param("ssssis", $username, $departure, $destination, $date, $passengersInt, $passengersListJson);
 
         // Execute the query
         if ($stmt->execute()) {
