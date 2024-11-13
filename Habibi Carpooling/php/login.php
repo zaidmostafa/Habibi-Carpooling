@@ -8,10 +8,8 @@
     $myUsername = 'root'; // Database username
     $myPassword = ''; // Database password
 
-    // Create a MySQLi connection
+    // Create a MySQLi connection & check for connection error
     $conn = new mysqli($host, $myUsername, $myPassword, $dbname);
-
-    // Check for connection errors
     if ($conn->connect_error) {
         die("Database connection failed: " . $conn->connect_error);
     }
