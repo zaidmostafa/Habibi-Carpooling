@@ -96,5 +96,150 @@ body{
 #login a{
     color:#3a7577;
 }
+#postRideForm {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%;
+    margin: 20px;
+}
 
+fieldset {
+    border: none;
+}
+
+legend {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+label, input[type="text"], input[type="datetime-local"], input[type="number"] {
+    display: block;
+    width: 80%;
+    max-width: 300px;
+    font-size: 16px;
+    margin: 0 auto;
+}
+
+input[type="text"], input[type="datetime-local"], input[type="number"] {
+    padding: 8px;
+    margin: 8px 0 16px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+button {
+    display: block;
+    margin: 20px auto 0;
+    background-color: #6e6e6e;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #333;
+}
+
+.rides-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.rides-container h1 {
+    margin-bottom: 20px;
+    font-size: 28px;
+    color: #021258;
+}
+
+.rides-table {
+    width: 100%;
+    max-width: 600px;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.rides-table th, .rides-table td {
+    padding: 12px;
+    text-align: left;
+}
+
+.rides-table th {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+}
+
+.rides-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.rides-table tr:hover {
+    background-color: #ddd;
+}
+
+.join-ride-btn,
+.back-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 20px;
+}
+
+.join-ride-btn:hover,
+.back-button:hover {
+    background-color: #45a049;
+}
+
+
+.ride-full {
+    color: #c22d28;
+    font-weight: bold;
+}
+
+.back-button {
+    background-color: #837e7e; 
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.back-button:hover {
+    background-color: #333;
+}
 
