@@ -5,19 +5,26 @@ body{
     background-repeat: no-repeat; 
     background-attachment: fixed; 
     background-color: #c47638; 
-    font-family: "Sour Gummy", sans-serif;
+    font-family: "Sour Gummy", sans-serif ;
+    overflow:hidden;
      
 }
-
-#welcomeMsg{
-    margin-top: 245px;
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 34vh;
+}
+#welcomeMsg h3{
+    margin-top: 32.5vh;
     text-align: center;
     color: #021258;
 }
 
 #login{
     text-align:center;
-    margin-top: 50px;
+    margin-top: 5vh;
 
 }
 #callToAction{
@@ -28,15 +35,13 @@ body{
     font-family: "Sour Gummy", sans-serif;
     font-weight:bold;
     border-radius: 20px;
-    font-size:large;
+    font-size: 1.2em;
     color:#1fb4c1;
     border-color:#1fb4c1 ;
     box-shadow: inset;
     background-color: #e8ebc5 !important;
-    padding-top: 10px;
-    padding-bottom:10px;
-    padding-left: 50px;
-    padding-right: 50px;
+    padding: 10px 2vw;
+    
     
 }
 #loginButton:hover,#signupButton:hover{
@@ -46,12 +51,50 @@ body{
 }
 
 #callToAction {
-    margin: 40px auto;
-    width:600px;
-    margin-top:240px ;
-    line-height: 5px;
+    margin-left:10%;
+    margin: 40vh auto;
+    width: 80%;
+    margin-top:31vh ;
+    line-height: 0.40em;
     font-weight: bold;
     
     color:#2f586a;
 
 }
+
+/* ---------loginpage css could not link with same ids/classes ----------*/
+
+#text{
+    font-family: "Sour Gummy", sans-serif;
+    font-weight:bold;
+    border-radius: 20px;
+    font-size:1.1em;
+    color:#1fb4c1;
+    border-color:#1fb4c1 ;
+    box-shadow: inset;
+    background-color: #e8ebc5 !important;
+    padding-top: 10px;
+    padding-bottom:10px;
+    
+}
+#loginForm legend,#textid {
+    font-family: "Sour Gummy", sans-serif;
+    font-size:1.3em;
+    font-weight:bold;
+    color: #021258;
+    padding-bottom:2%;
+
+
+}
+
+#login form, #loginForm fieldset{
+    margin-top: 32.5vh;
+    text-align: center;
+    color: #021258;
+    border:none;
+}
+#login a{
+    color:#3a7577;
+}
+
+
