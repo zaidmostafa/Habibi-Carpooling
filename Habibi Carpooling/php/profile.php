@@ -59,56 +59,72 @@
     <head>
         <title>Profile</title>
         <link rel="stylesheet" href="habibiStyles.css">
+        <link href="https://fonts.googleapis.com/css2?family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+        
     </head>
     <body>
 
         <div id="profile">
-            <h1>Welcome, <?php echo htmlspecialchars($username); ?>!</h1>
+            <!-- Welcome Message -->
+            <h1>Welcome, <span style="color:#1fb4c1"> <?php echo htmlspecialchars($username); ?> ! </span></h1>
+        
+            <!-- Container for the 4 Divs -->
+            <div class="profile-children-container">
+                <!-- Search Bar -->
+                <div class="profilechild" id="search">
+                    <h2>Search for a Ride</h2>
+                    <form action="searchRide.php" method="GET">
+                        <input type="text" id="searchText" name="search" placeholder="Search by: origin, destination, etc." required>
+                        <input id="submitButton" type="submit" value="Search">
+                    </form>
+                </div>
+        
+                <!-- Post a New Ride -->
+                <div class="profilechild" id="post">
+                    <h2>Post a Ride</h2>
+                    <form action="postRide.php" method="GET">
+                        <input id="submitButton" type="submit" value="Post a New Ride">
+                    </form>
+                </div>
+        
+                <!-- Display Rides Posted by the User -->
+                <div class="profilechild" id="display">
+                    <h2>Rides Posted</h2>
+                    <?php if (count($ridesPosted) > 0): ?>
+                        <ul>
+                            <?php foreach ($ridesPosted as $ride): ?>
+                                <li>
+                                    <strong><a href="rideInfo.php?rideID=<?php echo $ride['rideID']; ?>">Ride ID: <?php echo $ride['rideID']; ?></a></strong><br>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php else: ?>
+                        <p>You have not posted any rides yet.</p>
+                    <?php endif; ?>
+                </div>
+        
+                <!-- Display Rides Taken by the User -->
+                <div class="profilechild" id="taken">
+                    <h2>Rides Taken</h2>
+                    <?php if (count($ridesTaken) > 0): ?>
+                        <ul>
+                            <?php foreach ($ridesTaken as $ride): ?>
+                                <li>
+                                    <strong><a href="rideInfo.php?rideID=<?php echo $ride['rideID']; ?>">Ride ID: <?php echo $ride['rideID']; ?></a></strong><br>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php else: ?>
+                        <p>You have not taken any rides yet.</p>
+                    <?php endif; ?>
+                </div>
+            </div>
 
-            <!-- Search Bar -->
-            <h2>Search for a Ride</h2>
-            <form action="searchRide.php" method="GET">
-                <input type="text" name="search" placeholder="Search by: origin, destination, date, etc." required>
-                <input type="submit" value="Search">
-            </form>
-
-            <!-- Button to Post a New Ride -->
-            <h2>Post a Ride</h2>
-            <form action="postRide.php" method="GET">
-                <input type="submit" value="Post a New Ride">
-            </form>
-
-            <!-- Display Rides Posted by the User -->
-            <h2>Rides Posted</h2>
-            <?php if (count($ridesPosted) > 0): ?>
-                <ul>
-                    <?php foreach ($ridesPosted as $ride): ?>
-                        <li>
-                        <strong><a href="rideInfo.php?rideID=<?php echo $ride['rideID']; ?>">Ride ID: <?php echo $ride['rideID']; ?></a></strong><br>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
-            <?php else: ?>
-                <p>You have not posted any rides yet.</p>
-            <?php endif; ?>
-
-            <!-- Display Rides Taken by the User -->
-            <h2>Rides Taken</h2>
-            <?php if (count($ridesTaken) > 0): ?>
-                <ul>
-                    <?php foreach ($ridesTaken as $ride): ?>
-                        <li>
-                        <strong><a href="rideInfo.php?rideID=<?php echo $ride['rideID']; ?>">Ride ID: <?php echo $ride['rideID']; ?></a></strong><br>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
-            <?php else: ?>
-                <p>You have not taken any rides yet.</p>
-            <?php endif; ?>
-
+        <button id="logoutButton" onclick="window.location.href='../html/homepage.html'">Logout</button>
+            
         </div>
+        
 
-        <button onclick="window.location.href='../html/homepage.html'">Logout</button>
 
     </body>
 </html>
