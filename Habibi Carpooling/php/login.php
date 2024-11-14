@@ -8,8 +8,10 @@
     $myUsername = 'root'; // Database username
     $myPassword = ''; // Database password
 
-    // Create a MySQLi connection & check for connection error
+    // Create a MySQLi connection
     $conn = new mysqli($host, $myUsername, $myPassword, $dbname);
+
+    // Check for connection errors
     if ($conn->connect_error) {
         die("Database connection failed: " . $conn->connect_error);
     }
@@ -74,7 +76,7 @@
     <link rel="stylesheet" href="habibiStyles.css"> 
     <link href="https://fonts.googleapis.com/css2?family=Sour+Gummy:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="blurredBackground">
     <!-- Display the error message if there is one -->
     <?php if (!empty($errorMessage)): ?>
         <div id="warning" style="color: red;">
@@ -82,25 +84,25 @@
         </div>
     <?php endif; ?>
 
-    <div id="login">
+    <div id="loginbox">
+        <div id="login">
         
 
-        <!-- Login Form -->
-        <form id="loginForm" action="login.php" method="POST">
-            <fieldset>
-                <legend>Enter Your Login Details</legend>
+            <!-- Login Form -->
+            <form id="loginForm" action="login.php" method="POST">
+                <fieldset>
+                    <legend>Enter Your Login Details</legend>
 
-                <!-- <label id="textid">Username</label><br> -->
-                <input type ="text" id="text" name="username" placeholder="Username" required><br><br>
+                    <input type ="text" id="text" name="username" placeholder="Username" required><br><br>
 
-                <!-- <label id="textid">Password</label><br> -->
-                <input type="password" id="text" name="password" placeholder="Password" required><br><br>
+                    <input type="password" id="text" name="password" placeholder="Password" required><br><br>
 
-                <input type="submit" id="loginButton" value="Login">
-            </fieldset>
-        </form>
+                    <input type="submit" id="loginButton" value="Login">
+             </fieldset>
+            </form>
 
-        <p>Don't have an account? <a href="signUp.php">Sign up here</a>.</p>
+            <p>Don't have an account? <a href="signUp.php">Sign up here</a>.</p>
+        </div>
     </div>
 </body>
 </html>
