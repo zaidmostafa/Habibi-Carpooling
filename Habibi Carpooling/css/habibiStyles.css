@@ -9,6 +9,31 @@ body{
     overflow:hidden;
      
 }
+
+/*changes the background to blurry*/
+.blurredBackground::before {
+    content: ""; 
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url(backgroundImage.jpg);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-color: #c47638;
+    filter: blur(8px);
+     z-index: -1; /*pushes background back */
+}
+
+/* pushes all text/content forward for visibility*/ 
+.blurredBackground * {
+    position: relative;
+    z-index: 1;
+}
+
 .container{
     display: flex;
     flex-direction: column;
@@ -16,6 +41,7 @@ body{
     align-items: center;
     height: 34vh;
 }
+
 #welcomeMsg h3{
     margin-top: 32.5vh;
     text-align: center;
@@ -25,13 +51,17 @@ body{
 #login{
     text-align:center;
     margin-top: 5vh;
+    
+    
 
 }
 #callToAction{
     text-align:center;
 
 }
-#loginButton,#signupButton{
+
+/*login, logout buttons styles*/
+#loginButton,#signupButton,#logoutButton{
     font-family: "Sour Gummy", sans-serif;
     font-weight:bold;
     border-radius: 20px;
@@ -44,7 +74,10 @@ body{
     
     
 }
-#loginButton:hover,#signupButton:hover{
+
+/*login, logout buttons hover properties*/
+
+#loginButton:hover,#signupButton:hover,#logoutButton:hover{
     background-color:#1fb4c1 !important;
     color:#e8ebc5;
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
@@ -62,7 +95,7 @@ body{
 
 }
 
-/* ---------loginpage css could not link with same ids/classes ----------*/
+/* ---------login.php css could not link with same ids/classes ----------*/
 
 #text{
     font-family: "Sour Gummy", sans-serif;
@@ -77,7 +110,8 @@ body{
     padding-bottom:10px;
     
 }
-#loginForm legend,#textid {
+
+#loginForm legend{
     font-family: "Sour Gummy", sans-serif;
     font-size:1.3em;
     font-weight:bold;
@@ -91,10 +125,125 @@ body{
     margin-top: 32.5vh;
     text-align: center;
     color: #021258;
-    border:none;
+    
 }
+
+#loginForm fieldset{
+    border:2px solid;
+    border-color: #1fb4c1;
+    background-color: #e8ebc5;
+    border-radius: 30px;
+    width:40%;
+    margin:0 auto;
+}
+
 #login a{
     color:#3a7577;
 }
+
+/*--------profile.php css that could not link with same classes*/
+
+#profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    text-align: center;
+    margin-top:31vh;
+}
+
+#profile h1 {
+    margin: 0;
+    color:#021258;
+    font-style: italic;
+}
+
+/* Container for the 4 profilechild divs */
+.profile-children-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px; 
+}
+
+/* Individual Divs Styling */
+.profilechild {
+    flex: 1 1 200px; 
+    border: 3.5px solid #1fb4c1;
+    padding: 20px;
+    border-radius: 15px;
+    box-sizing: border-box;
+    min-width: 200px; /* each div won’t shrink below 200px */
+    text-align: center;
+    background-color: #e8ebc5;
+    height:40vh;
+}
+
+.profilechild h2{
+    color:#196c90;
+    margin-top:0.5%;
+    text-decoration: underline;
+
+}
+
+/*lowering logout button*/
+#logoutButton {
+    margin-top:20px;
+    align-content: center;
+}
+
+
+/*submit button styled */
+#submitButton{
+    margin-top:5%;
+    font-family: "Sour Gummy", sans-serif;
+    font-weight:bold;
+    border-radius: 20px;
+    font-size: 1em;
+    color:#e8ebc5;
+    border-color:#e8ebc5 ;
+    box-shadow: inset;
+    background-color: #1fb4c1 !important;
+    padding: 5px 2vw;
+    
+    
+}
+
+/*submit button hoveer properties */
+#submitButton:hover{
+    background-color:#e8ebc5 !important;
+    color:#1fb4c1;
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+/*destination search bar*/
+#searchText{
+    font-family: "Sour Gummy", sans-serif;
+    font-weight:bold;
+    border-radius: 20px;
+    font-size:0.9em;
+    color:#1fb4c1;
+    border-color:#1fb4c1 ;
+    box-shadow: inset;
+    background-color: #e8ebc5 !important;
+    padding-top: 10px;
+    padding-bottom:10px;
+    width:100%;
+}
+
+/* text color for 'rides taken' and 'rides posted'  */
+#taken p,#display p{
+    font-weight:bold;
+    color:#8b3936;
+}
+#taken a,#display a{
+    color:#54a3a9;
+}
+
+
+
+
 
 
